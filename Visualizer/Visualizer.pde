@@ -90,19 +90,20 @@ class Heap<E extends Comparable<E>> {
   
   }
   void pushUp(int index){
-  int parentIndex;
-  E parent;
-    while (index > 0) {
-      parentIndex = (index - 1) / 2;
-      parent = data[parentIndex].getData();
-      if (data[index] > data[parent]) {
-        swap(data, index, parent);
-        index = parent;
-      }
-      else {
-        break;
-      }
-    }
+    int parentIndex;
+    E parent, cur;
+      while (index > 0) {
+        parentIndex = (index - 1) / 2;
+        parent = data[parentIndex].getData();
+        cur = data[index].getData();
+        if (cur.compareTo(parent) > 0) {
+          swap(index, parentIndex);
+          index = parentIndex;
+        }
+        else {
+          break;
+        }
+     }
   }
   void heapify(){}
   void clear(){
