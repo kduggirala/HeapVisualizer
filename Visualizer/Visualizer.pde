@@ -41,15 +41,18 @@ class Heap<E extends Comparable<E>> {
      
   }
   private void swap(int index1, int index2) {
-    Node<E> temp = data[index1];
-    data[index1] = data[index2];
-    data[index2] = temp;
+    E temp = data[index1].getData();
+    data[index1].setData(data[index2].getData());
+    data[index2].setData(temp);
   }
-  void pushUp(){
-    int child1, child2;
+  void pushDown(int index){
+    int child1Index, child2Index;
+    E child1, child2;
     while (index < size) {
-      child1 = (2 * index) + 1;
-      child2 = child1 + 1;
+      child1Index = (2 * index) + 1;
+      child2Index = child1Index + 1;
+      child1 = data[child1Index].getData();
+      child2 = data[child2Index].getData();
       if (child2 < size) {
         if (data[child1] > data[child2]) {
           if (data[child1] > data[index]) {
@@ -85,10 +88,12 @@ class Heap<E extends Comparable<E>> {
     
   
   }
-  void pushDown(){
-  int parent;
+  void pushUp(int index){
+  int parentIndex;
+  E parent;
     while (index > 0) {
-      parent = (index - 1) / 2;
+      parentIndex = (index - 1) / 2;
+      parent = data[parentIndex].getData();
       if (data[index] > data[parent]) {
         swap(data, index, parent);
         index = parent;
