@@ -1,4 +1,4 @@
-class Node {
+class Node<E> {
   private E data;
   int xcor;
   int ycor;
@@ -11,9 +11,9 @@ class Node {
     return data;
   }
 
-  private E setData(E new) {
+  private E setData(E newData) {
     E old = data;
-    data = new;
+    data = newData;
     return old;
   }
 
@@ -26,3 +26,23 @@ class Node {
   }
   
 }
+
+class Heap<E> {
+  Node<E>[] data;
+  E pop(){return null;}
+  void pushUp(){}
+  void pushDown(){}
+  void heapify(){}
+  void clear(){}
+  void compareTo(){}
+  
+}
+
+Heap<Integer> heap;
+void draw(){}
+void setup(){}
+void  display(){}
+void clear(){}
+void addValue(Integer i){heap.add(i);}
+void removeValue() {heap.pop();}
+void setHeapType(boolean isMaxHeap) {}
