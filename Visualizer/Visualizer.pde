@@ -35,10 +35,16 @@ class Heap<E extends Comparable<E>> {
     size = 0;
   }
   
-  E pop(){return null;}
+  E pop(){
+    E popped = data[--size].getData();
+    swap(0, size);
+    data[size] = null;
+    pushDown(0);
+    return popped;
+  }
   void add(E value) {
-     data[size++] = new Node<E>(value, 0, 0);
-     
+     data[size] = new Node<E>(value, 0, 0);
+     pushUp(size++);
   }
   private void swap(int index1, int index2) {
     E temp = data[index1].getData();
@@ -105,9 +111,21 @@ class Heap<E extends Comparable<E>> {
         }
      }
   }
-  void heapify(){}
+  void heapify() {
+    heapifyHelp(0);
+  }
+      //- convert the array into a valid heap. [ should be O(n) ]
+ void heapifyHelp(int index) {
+    if (2 * index + 1 < size) { //if it is has children
+      heapifyHelp(2 * index + 1);
+      heapifyHelp(2 * index + 2);
+      pushDown(index);
+    }
+  }
+  
   void clear(){
-    data = null;
+    data = (Node<E>[]) new Object[63];
+    size = 0;
   }
   void compareTo(){}
   
