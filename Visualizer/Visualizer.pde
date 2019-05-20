@@ -29,18 +29,75 @@ class Node<E> {
 
 class Heap<E extends Comparable<E>> {
   Node<E>[] data;
-  int cur;
+  int size;
   Heap() {
     data = (Node<E>[]) new Object[63];
-    cur = 0;
+    size = 0;
   }
   
   E pop(){return null;}
   void add(E value) {
+     data[size++] = new Node<E>(value, 0, 0);
      
   }
-  void pushUp(){}
-  void pushDown(){}
+  private void swap(int index1, int index2) {
+    Node<E> temp = data[index1];
+    data[index1] = data[index2];
+    data[index2] = temp;
+  }
+  void pushUp(){
+    int child1, child2;
+    while (index < size) {
+      child1 = (2 * index) + 1;
+      child2 = child1 + 1;
+      if (child2 < size) {
+        if (data[child1] > data[child2]) {
+          if (data[child1] > data[index]) {
+            swap(data, child1, index);
+            index = child1;
+          }
+          else {
+            break;
+          }
+        }
+        else {
+          if (data[child2] > data[index]) {
+            swap(data, child2, index);
+            index = child2;
+          }
+          else {
+            break;
+          }
+        }
+      }
+      else {
+        if (child1 < size) {
+          if (data[child1] > data[index]) {
+            swap(data, child1, index);
+          }
+          break;
+        }
+        else {
+          break;
+        }
+      }
+    }
+    
+  
+  }
+  void pushDown(){
+  int parent;
+    while (index > 0) {
+      parent = (index - 1) / 2;
+      if (data[index] > data[parent]) {
+        swap(data, index, parent);
+        index = parent;
+      }
+      else {
+        break;
+      }
+    }
+  }
   void heapify(){}
   void clear(){
     data = null;
