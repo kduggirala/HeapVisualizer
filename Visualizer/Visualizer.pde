@@ -27,13 +27,24 @@ class Node<E> {
   
 }
 
-class Heap<E> {
+class Heap<E extends Comparable<E>> {
   Node<E>[] data;
+  int cur;
+  Heap() {
+    data = (Node<E>[]) new Object[63];
+    cur = 0;
+  }
+  
   E pop(){return null;}
+  void add(E value) {
+     
+  }
   void pushUp(){}
   void pushDown(){}
   void heapify(){}
-  void clear(){}
+  void clear(){
+    data = null;
+  }
   void compareTo(){}
   
 }
