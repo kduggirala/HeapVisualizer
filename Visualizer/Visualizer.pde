@@ -47,26 +47,27 @@ class Heap<E extends Comparable<E>> {
   }
   void pushDown(int index){
     int child1Index, child2Index;
-    E child1, child2;
+    E child1, child2, cur;
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
       child1 = data[child1Index].getData();
       child2 = data[child2Index].getData();
-      if (child2 < size) {
-        if (data[child1] > data[child2]) {
-          if (data[child1] > data[index]) {
-            swap(data, child1, index);
-            index = child1;
+      cur = data[index].getData();
+      if (child2Index < size) {
+        if (child1.compareTo(child2) > 0) {
+          if (child1.compareTo(cur) > 0) {
+            swap(child1Index, index);
+            index = child1Index;
           }
           else {
             break;
           }
         }
         else {
-          if (data[child2] > data[index]) {
-            swap(data, child2, index);
-            index = child2;
+          if (child2.compareTo(cur) > 0) {
+            swap(child2Index, index);
+            index = child2Index;
           }
           else {
             break;
@@ -74,9 +75,9 @@ class Heap<E extends Comparable<E>> {
         }
       }
       else {
-        if (child1 < size) {
-          if (data[child1] > data[index]) {
-            swap(data, child1, index);
+        if (child1Index < size) {
+          if (child1.compareTo(cur) > 0) {
+            swap(child1Index, index);
           }
           break;
         }
