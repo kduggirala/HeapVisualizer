@@ -21,8 +21,8 @@ class Node<E> {
     xcor = x;
   }
 
-  private void setycor(int x) {
-    xcor = x;
+  private void setycor(int y) {
+    ycor = y;
   }
   
 }
@@ -30,11 +30,19 @@ class Node<E> {
 class Heap<E extends Comparable<E>> {
   Node<E>[] data;
   int size;
+  boolean isMaxHeap;
   Heap() {
     data = (Node<E>[]) new Object[63];
     size = 0;
+    isMaxHeap = true;
   }
   
+  Heap(boolean isMaxHeap) {
+    data = (Node<E>[]) new Object[63];
+    size = 0;
+    this.isMaxHeap = isMaxHeap;
+  }
+
   E pop(){
     E popped = data[--size].getData();
     swap(0, size);
@@ -51,6 +59,7 @@ class Heap<E extends Comparable<E>> {
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
   }
+  int size() {return size;}
   void pushDown(int index){
     int child1Index, child2Index;
     E child1, child2, cur;
@@ -61,8 +70,8 @@ class Heap<E extends Comparable<E>> {
       child2 = data[child2Index].getData();
       cur = data[index].getData();
       if (child2Index < size) {
-        if (child1.compareTo(child2) > 0) {
-          if (child1.compareTo(cur) > 0) {
+        if (compareTo(child1, child2) > 0) {
+          if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
             index = child1Index;
           }
@@ -71,7 +80,7 @@ class Heap<E extends Comparable<E>> {
           }
         }
         else {
-          if (child2.compareTo(cur) > 0) {
+          if (compareTo(child2, cur) > 0) {
             swap(child2Index, index);
             index = child2Index;
           }
@@ -82,7 +91,7 @@ class Heap<E extends Comparable<E>> {
       }
       else {
         if (child1Index < size) {
-          if (child1.compareTo(cur) > 0) {
+          if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
           }
           break;
@@ -102,7 +111,7 @@ class Heap<E extends Comparable<E>> {
         parentIndex = (index - 1) / 2;
         parent = data[parentIndex].getData();
         cur = data[index].getData();
-        if (cur.compareTo(parent) > 0) {
+        if (compareTo(cur, parent) > 0) {
           swap(index, parentIndex);
           index = parentIndex;
         }
@@ -127,7 +136,14 @@ class Heap<E extends Comparable<E>> {
     data = (Node<E>[]) new Object[63];
     size = 0;
   }
-  void compareTo(){}
+  int compareTo(E e1, E e2){
+    if (isMaxHeap) {
+      return e1.compareTo(e2);
+    }
+    else {
+      return -1 * e1.compareTo(e2);
+    }
+  }
   
 }
 
