@@ -24,7 +24,6 @@ class Node<E> {
   private void setycor(int y) {
     ycor = y;
   }
-  
 }
 
 class Heap<E extends Comparable<E>> {
@@ -36,14 +35,14 @@ class Heap<E extends Comparable<E>> {
     size = 0;
     isMaxHeap = true;
   }
-  
+
   Heap(boolean isMaxHeap) {
     data = (Node<E>[]) new Object[63];
     size = 0;
     this.isMaxHeap = isMaxHeap;
   }
 
-  E pop(){
+  E pop() {
     E popped = data[--size].getData();
     swap(0, size);
     data[size] = null;
@@ -51,16 +50,18 @@ class Heap<E extends Comparable<E>> {
     return popped;
   }
   void add(E value) {
-     data[size] = new Node<E>(value, 0, 0);
-     pushUp(size++);
+    data[size] = new Node<E>(value, 0, 0);
+    pushUp(size++);
   }
   private void swap(int index1, int index2) {
     E temp = data[index1].getData();
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
   }
-  int size() {return size;}
-  void pushDown(int index){
+  int size() {
+    return size;
+  }
+  void pushDown(int index) {
     int child1Index, child2Index;
     E child1, child2, cur;
     while (index < size) {
@@ -74,84 +75,114 @@ class Heap<E extends Comparable<E>> {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
             index = child1Index;
-          }
-          else {
+          } else {
             break;
           }
-        }
-        else {
+        } else {
           if (compareTo(child2, cur) > 0) {
             swap(child2Index, index);
             index = child2Index;
-          }
-          else {
+          } else {
             break;
           }
         }
-      }
-      else {
+      } else {
         if (child1Index < size) {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
           }
           break;
-        }
-        else {
+        } else {
           break;
         }
       }
     }
-    
-  
   }
-  void pushUp(int index){
+  void pushUp(int index) {
     int parentIndex;
     E parent, cur;
-      while (index > 0) {
-        parentIndex = (index - 1) / 2;
-        parent = data[parentIndex].getData();
-        cur = data[index].getData();
-        if (compareTo(cur, parent) > 0) {
-          swap(index, parentIndex);
-          index = parentIndex;
-        }
-        else {
-          break;
-        }
-     }
+    while (index > 0) {
+      parentIndex = (index - 1) / 2;
+      parent = data[parentIndex].getData();
+      cur = data[index].getData();
+      if (compareTo(cur, parent) > 0) {
+        swap(index, parentIndex);
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
   }
   void heapify() {
     heapifyHelp(0);
   }
-      //- convert the array into a valid heap. [ should be O(n) ]
- void heapifyHelp(int index) {
+  //- convert the array into a valid heap. [ should be O(n) ]
+  void heapifyHelp(int index) {
     if (2 * index + 1 < size) { //if it is has children
       heapifyHelp(2 * index + 1);
       heapifyHelp(2 * index + 2);
       pushDown(index);
     }
   }
-  
-  void clear(){
+
+  void clear() {
     data = (Node<E>[]) new Object[63];
     size = 0;
   }
-  int compareTo(E e1, E e2){
+
+  int compareTo(E e1, E e2) {
     if (isMaxHeap) {
       return e1.compareTo(e2);
-    }
-    else {
+    } else {
       return -1 * e1.compareTo(e2);
     }
   }
-  
 }
 
+//::::::: VISUALIZER:::::::::::::::
+
+static int log(int x, int base) {
+  return (int) (Math.log(x) / Math.log(base));
+}
+static int getxcor(int num) {
+  return 0 ;
+}
+
+static int getycor(int num) {
+  return 0;
+}
+
+//int level = log(num, 2) + 1;
+//int xintv = width / 33;
+//int yintv = height / (level + 1); 
+
 Heap<Integer> heap;
-void draw(){}
-void setup(){}
-void  display(){}
-void clear(){}
-void addValue(Integer i){heap.add(i);}
-void removeValue() {heap.pop();}
-void setHeapType(boolean isMaxHeap) {}
+void setup() {
+  size(1000, 800);
+  int[] oldArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  Integer[] newArray = new Integer[oldArray.length];
+  int i = 0;
+  for (int value : oldArray) {
+    newArray[i++] = Integer.valueOf(value);
+  }
+  heap = new Heap<Integer>();
+  for (int k = 0; k < newArray.length; k++) {
+    heap.add(newArray[k]);
+  }
+}
+
+void draw() {
+}
+
+void  display() {
+}
+void clear() {
+}
+void addValue(Integer i) {
+  heap.add(i);
+}
+void removeValue() {
+  heap.pop();
+}
+void setHeapType(boolean isMaxHeap) {
+}
