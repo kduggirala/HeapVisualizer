@@ -129,7 +129,6 @@ class Heap<E extends Comparable<E>> {
     data = (Node<E>[]) new Object[63];
     size = 0;
   }
-
   int compareTo(E e1, E e2) {
     if (isMaxHeap) {
       return e1.compareTo(e2);
@@ -139,32 +138,35 @@ class Heap<E extends Comparable<E>> {
   }
 }
 
+
 //::::::: VISUALIZER:::::::::::::::
 
 static int log(int x, int base) {
   return (int) (Math.log(x) / Math.log(base));
 }
+
 static int getxcor(int num) {
-  return 0 ;
+  return 0;
 }
 
 static int getycor(int num) {
   return 0;
 }
 
-//int level = log(num, 2) + 1;
-//int xintv = width / 33;
-//int yintv = height / (level + 1); 
 
 Heap<Integer> heap;
+int radius;
 void setup() {
   size(1000, 800);
+  radius = 10;
+  // Integer data set for heap
   int[] oldArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   Integer[] newArray = new Integer[oldArray.length];
   int i = 0;
   for (int value : oldArray) {
     newArray[i++] = Integer.valueOf(value);
   }
+  
   heap = new Heap<Integer>();
   for (int k = 0; k < newArray.length; k++) {
     heap.add(newArray[k]);
@@ -172,6 +174,14 @@ void setup() {
 }
 
 void draw() {
+  for (int i = 0; i < heap.size(); i += 2) {
+    stroke(200);
+    circle(getxcor(i), getycor(i), radius);
+  }
+  for (int i = 1; i < heap.size(); i += 2) {
+    stroke(200);
+    circle(getxcor(i), getycor(i), radius);
+  }
 }
 
 void  display() {
