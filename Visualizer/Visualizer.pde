@@ -145,14 +145,13 @@ static int log(int x, int base) {
   return (int) (Math.log(x) / Math.log(base));
 }
 
-static int getxcor(int num) {
-  return 0;
+int getxcor(int num) {
+  return (width / 33) * num ;
 }
 
-static int getycor(int num) {
-  return 0;
+int getycor(int num) {
+  return (height / 7) * num ;
 }
-
 
 Heap<Integer> heap;
 int radius;
@@ -185,14 +184,20 @@ void draw() {
 }
 
 void  display() {
+  
 }
+
 void clear() {
+  
 }
+
 void addValue(Integer i) {
   heap.add(i);
 }
+
 void removeValue() {
   heap.pop();
 }
+
 void setHeapType(boolean isMaxHeap) {
 }
