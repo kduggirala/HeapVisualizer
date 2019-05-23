@@ -1,18 +1,18 @@
-class Node<E> {
-  private E data;
+class Node{
+  private int data;
   int xcor;
   int ycor;
-  Node(E value, int x, int y) {
+  Node(int value, int x, int y) {
     data = value;
     xcor = x;
     ycor = y;
   }
-  private E getData() {
+  private int getData() {
     return data;
   }
 
-  private E setData(E newData) {
-    E old = data;
+  private int setData(int newData) {
+    int old = data;
     data = newData;
     return old;
   }
@@ -27,42 +27,42 @@ class Node<E> {
   
 }
 
-class Heap<E extends Comparable<E>> {
-  Node<E>[] data;
+class Heap {
+  Node[] data;
   int size;
   boolean isMaxHeap;
   Heap() {
-    data = (Node<E>[]) new Object[63];
+    data = new Node[63];
     size = 0;
     isMaxHeap = true;
   }
   
   Heap(boolean isMaxHeap) {
-    data = (Node<E>[]) new Object[63];
+    data = new Node[63];
     size = 0;
     this.isMaxHeap = isMaxHeap;
   }
 
-  E pop(){
-    E popped = data[--size].getData();
+  int pop(){
+    int popped = data[--size].getData();
     swap(0, size);
     data[size] = null;
     pushDown(0);
     return popped;
   }
-  void add(E value) {
-     data[size] = new Node<E>(value, 0, 0);
+  void add(int value) {
+     data[size] = new Node(value, 0, 0);
      pushUp(size++);
   }
   private void swap(int index1, int index2) {
-    E temp = data[index1].getData();
+    int temp = data[index1].getData();
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
   }
   int size() {return size;}
   void pushDown(int index){
     int child1Index, child2Index;
-    E child1, child2, cur;
+    int child1, child2, cur;
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
@@ -106,7 +106,7 @@ class Heap<E extends Comparable<E>> {
   }
   void pushUp(int index){
     int parentIndex;
-    E parent, cur;
+    int parent, cur;
       while (index > 0) {
         parentIndex = (index - 1) / 2;
         parent = data[parentIndex].getData();
@@ -133,24 +133,30 @@ class Heap<E extends Comparable<E>> {
   }
   
   void clear(){
-    data = (Node<E>[]) new Object[63];
+    data = new Node[63];
     size = 0;
   }
-  int compareTo(E e1, E e2){
-    if (isMaxHeap) {
-      return e1.compareTo(e2);
+  int compareTo(int e1, int e2) {    
+    if (e1 > e2) {
+       return isMaxHeap ? 1 : -1;
     }
-    else {
-      return -1 * e1.compareTo(e2);
+    if (e2 > e1) {
+      return isMaxHeap ? -1 : 1; 
     }
+    else {return 0;}
   }
   
 }
 
-Heap<Integer> heap;
-void draw(){}
-void setup(){}
-void  display(){}
+Heap heap;
+void draw(){
+  background(255);  
+}
+void setup(){
+  heap = new Heap(true);
+  size(1000, 800);
+}
+void display(){}
 void clear(){}
 void addValue(Integer i){heap.add(i);}
 void removeValue() {heap.pop();}
