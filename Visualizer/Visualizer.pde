@@ -53,9 +53,10 @@ class Heap {
     size = 0;
     this.isMaxHeap = isMaxHeap;
   }
-
-
-
+  
+  void setHeapType(boolean isMax) {
+    isMaxHeap = isMax;
+  }
   int pop() {
     int popped = data[--size].getData();
     swap(0, size);
@@ -171,13 +172,11 @@ static int log(int x, int base) {
 
 int getxcor(int num) {
   int level = log(num, 2) + 1;
-  int indent = (width - 31 * radius) / 33;
-  int center = width / 2;
-  if (level % 2 == 0) {
-    return width / 2 - num * indent;
-  } else {
-    return width / 2 + num * indent;
-  }
+  int offset = 1;
+  for (int i = (int) Math.pow(2, level - 1) - 1; i <num; i++ ) {
+    offset += 2;
+  } 
+  return (int) ((offset * width) / (Math.pow(2, level)));
 }
 
 int getycor(int num) {
@@ -214,6 +213,7 @@ void draw() {
 }
 
 void  display() {
+  
 }
 
 void clear() {
@@ -228,4 +228,5 @@ void removeValue() {
 }
 
 void setHeapType(boolean isMaxHeap) {
+  heap.setHeapType(isMaxHeap);
 }
