@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+
 class Node{
-=======
-class Node {
->>>>>>> Visualizer
+
   private int data;
   int xcor;
   int ycor;
@@ -11,11 +9,8 @@ class Node {
     xcor = x;
     ycor = y;
   }
-<<<<<<< HEAD
-  private int getData() {
-=======
+
   public int getData() {
->>>>>>> Visualizer
     return data;
   }
 
@@ -29,7 +24,6 @@ class Node {
     xcor = x;
   }
 
-<<<<<<< HEAD
   void setycor(int y) {
     ycor = y;
   }
@@ -41,11 +35,7 @@ class Node {
     textSize(30);
     text("" + data, xcor - 18, ycor + 15);
   }
-=======
-  private void setycor(int y) {
-    ycor = y;
-  }
->>>>>>> Visualizer
+
 }
 
 class Heap {
@@ -54,7 +44,6 @@ class Heap {
   boolean isMaxHeap;
   Heap() {
     data = new Node[63];
-<<<<<<< HEAD
     size = 0;
     isMaxHeap = true;
   }
@@ -65,20 +54,9 @@ class Heap {
     this.isMaxHeap = isMaxHeap;
   }
 
-  int pop(){
-=======
-    size = 0;
-    isMaxHeap = true;
-  }
 
-  Heap(boolean isMaxHeap) {
-    data = new Node[63];
-    size = 0;
-    this.isMaxHeap = isMaxHeap;
-  }
 
   int pop() {
->>>>>>> Visualizer
     int popped = data[--size].getData();
     swap(0, size);
     data[size] = null;
@@ -86,30 +64,19 @@ class Heap {
     return popped;
   }
   void add(int value) {
-<<<<<<< HEAD
      data[size] = new Node(value, 0, 0);
      pushUp(size++);
-=======
-    data[size] = new Node(value, 0, 0);
-    pushUp(size++);
->>>>>>> Visualizer
   }
   private void swap(int index1, int index2) {
     int temp = data[index1].getData();
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
   }
-<<<<<<< HEAD
-  int size() {return size;}
-  void pushDown(int index){
-=======
   int size() {
     return size;
   }
   void pushDown(int index) {
->>>>>>> Visualizer
-    int child1Index, child2Index;
-    int child1, child2, cur;
+    int child1Index, child2Index, child1, child2, cur;
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
@@ -121,15 +88,12 @@ class Heap {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
             index = child1Index;
-          } else {
+          } 
+          else {
             break;
           }
-<<<<<<< HEAD
         }
-        else {
-=======
-        } else {
->>>>>>> Visualizer
+      else { 
           if (compareTo(child2, cur) > 0) {
             swap(child2Index, index);
             index = child2Index;
@@ -137,7 +101,8 @@ class Heap {
             break;
           }
         }
-      } else {
+      } 
+      else {
         if (child1Index < size) {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
@@ -152,8 +117,7 @@ class Heap {
   void pushUp(int index) {
     int parentIndex;
     int parent, cur;
-<<<<<<< HEAD
-      while (index > 0) {
+     while (index > 0) {
         parentIndex = (index - 1) / 2;
         parent = data[parentIndex].getData();
         cur = data[index].getData();
@@ -165,19 +129,6 @@ class Heap {
           break;
         }
      }
-=======
-    while (index > 0) {
-      parentIndex = (index - 1) / 2;
-      parent = data[parentIndex].getData();
-      cur = data[index].getData();
-      if (compareTo(cur, parent) > 0) {
-        swap(index, parentIndex);
-        index = parentIndex;
-      } else {
-        break;
-      }
-    }
->>>>>>> Visualizer
   }
   void heapify() {
     heapifyHelp(0);
@@ -190,8 +141,7 @@ class Heap {
       pushDown(index);
     }
   }
-<<<<<<< HEAD
-  
+
   void clear(){
     data = new Node[63];
     size = 0;
@@ -208,46 +158,6 @@ class Heap {
   
 }
 
-Heap heap;
-Node test;
-int t;
-void draw(){
-  background(255);
-  test.setxcor((int) (test.xcor + (50 * cos(t))));
-  test.setycor((int) (test.ycor + (50 * sin(t))));
-  t += 1;
-  test.display();
-}
-void setup(){
-  heap = new Heap(true);
-  size(1000, 800);
-  test = new Node(10, 80, 100);
-  test.display();
-  t = 0;
-}
-void display(){
-}
-void clear(){heap.clear();}
-void addValue(Integer i){heap.add(i);}
-void removeValue() {heap.pop();}
-void setHeapType(boolean isMaxHeap) {}
-=======
-
-  void clear() {
-    data = (Node[]) new Object[63];
-    size = 0;
-  }
-  int compareTo(int e1, int e2) {
-    if (isMaxHeap) {
-      //return e1.compareTo(e2);
-      return e1 - e2;
-    } else {
-      return -1 * (e1 - e2);
-    }
-  }
-}
-
-//::::::: VISUALIZER:::::::::::::
 
 static int log(int x, int base) {
   if (x == 0) {
@@ -281,28 +191,25 @@ int radius;
 void setup() {
   size(1500, 1000);
   radius = 20;
-  // Integer data set for heap
-  int[] oldArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  //Integer[] newArray = new Integer[oldArray.length];
-  //int i = 0;
-  //for (int value : oldArray) {
-  //  newArray[i++] = Integer.valueOf(value);
-  //}
   heap = new Heap();
-  for (int k = 0; k < oldArray.length; k++) {
-    heap.add(oldArray[k]);
+  for (int k = 0; k < 10; k++) {
+    heap.add(k);
   }
+  Node[] data = heap.data;
+  for (int i = 0 ;i < heap.size(); i++) {
+    data[i].setxcor(getxcor(i));
+    data[i].setycor(getycor(i));
+  }
+  
 }
 
 void draw() {
   background(51);
+  Node[] data = heap.data;
   for (int i = 0; i < heap.size(); i++) {
-    stroke(200);
-    fill(255,0,0);
-    circle(getxcor(i), getycor(i), radius);
-    textSize(20);
-    fill(0,0,0);
-    text(i, getxcor(i), getycor(i));
+    if (data[i] != null) {
+      data[i].display();
+    }
   }
 }
 
@@ -322,4 +229,3 @@ void removeValue() {
 
 void setHeapType(boolean isMaxHeap) {
 }
->>>>>>> Visualizer
