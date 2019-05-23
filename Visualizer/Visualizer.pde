@@ -139,57 +139,69 @@ class Heap {
   }
 }
 
-
-//::::::: VISUALIZER:::::::::::::::
+//::::::: VISUALIZER:::::::::::::
 
 static int log(int x, int base) {
-  return (int) (Math.log(x) / Math.log(base));
+  if (x == 0) {
+    return 0;
+  }
+  if (x == 1) {
+    return 1;
+  }
+  return (int) (Math.log(x + 1) / Math.log(base));
 }
 
 int getxcor(int num) {
-  return (width / 33) * num ;
+  int level = log(num, 2) + 1;
+  int indent = (width - 31 * radius) / 33;
+  int center = width / 2;
+  if (level % 2 == 0) {
+    return width / 2 - num * indent;
+  } else {
+    return width / 2 + num * indent;
+  }
 }
 
 int getycor(int num) {
-  return (height / 7) * num ;
+  int level = log(num, 2) + 1;
+  int indent = (height - 12 * radius) / 7;
+  return indent * level + radius * (2 * level - 1);
 }
 
 Heap heap;
 int radius;
 void setup() {
-  size(1000, 800);
-  radius = 10;
+  size(1500, 1000);
+  radius = 20;
   // Integer data set for heap
   int[] oldArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-  Integer[] newArray = new Integer[oldArray.length];
-  int i = 0;
-  for (int value : oldArray) {
-    newArray[i++] = Integer.valueOf(value);
-  }
-  
+  //Integer[] newArray = new Integer[oldArray.length];
+  //int i = 0;
+  //for (int value : oldArray) {
+  //  newArray[i++] = Integer.valueOf(value);
+  //}
   heap = new Heap();
-  for (int k = 0; k < newArray.length; k++) {
-    heap.add(newArray[k]);
+  for (int k = 0; k < oldArray.length; k++) {
+    heap.add(oldArray[k]);
   }
 }
 
 void draw() {
-  for (int i = 0; i < heap.size(); i += 2) {
+  background(51);
+  for (int i = 0; i < heap.size(); i++) {
     stroke(200);
+    fill(255,0,0);
     circle(getxcor(i), getycor(i), radius);
-  }
-  for (int i = 1; i < heap.size(); i += 2) {
-    stroke(200);
-    circle(getxcor(i), getycor(i), radius);
+    textSize(20);
+    fill(0,0,0);
+    text(i, getxcor(i), getycor(i));
   }
 }
 
 void  display() {
-  
 }
 
 void clear() {
-  
 }
 
 void addValue(Integer i) {
