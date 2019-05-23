@@ -17,14 +17,21 @@ class Node{
     return old;
   }
 
-  private void setxcor(int x) {
+  void setxcor(int x) {
     xcor = x;
   }
 
-  private void setycor(int y) {
+  void setycor(int y) {
     ycor = y;
   }
   
+  void display() {
+    fill(235);
+    ellipse(xcor, ycor, 60, 60);
+    fill(0);
+    textSize(30);
+    text("" + data, xcor - 18, ycor + 15);
+  }
 }
 
 class Heap {
@@ -149,15 +156,25 @@ class Heap {
 }
 
 Heap heap;
+Node test;
+int t;
 void draw(){
-  background(255);  
+  background(255);
+  test.setxcor((int) (test.xcor + (50 * cos(t))));
+  test.setycor((int) (test.ycor + (50 * sin(t))));
+  t += 1;
+  test.display();
 }
 void setup(){
   heap = new Heap(true);
   size(1000, 800);
+  test = new Node(10, 80, 100);
+  test.display();
+  t = 0;
 }
-void display(){}
-void clear(){}
+void display(){
+}
+void clear(){heap.clear();}
 void addValue(Integer i){heap.add(i);}
 void removeValue() {heap.pop();}
 void setHeapType(boolean isMaxHeap) {}
