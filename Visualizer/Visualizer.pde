@@ -58,11 +58,14 @@ class Heap {
     isMaxHeap = isMax;
   }
   int pop() {
-    int popped = data[--size].getData();
-    swap(0, size);
-    data[size] = null;
-    pushDown(0);
-    return popped;
+    if (size > 0) {
+      int popped = data[--size].getData();
+      swap(0, size);
+      data[size] = null;
+      pushDown(0);
+      return popped;
+    }
+    return 0;
   }
   void add(int value) {
      data[size] = new Node(value, 0, 0);
@@ -81,10 +84,11 @@ class Heap {
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
-      child1 = data[child1Index].getData();
-      child2 = data[child2Index].getData();
+      
       cur = data[index].getData();
       if (child2Index < size) {
+        child1 = data[child1Index].getData();
+        child2 = data[child2Index].getData();
         if (compareTo(child1, child2) > 0) {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
@@ -94,7 +98,7 @@ class Heap {
             break;
           }
         }
-      else { 
+        else { 
           if (compareTo(child2, cur) > 0) {
             swap(child2Index, index);
             index = child2Index;
@@ -105,11 +109,13 @@ class Heap {
       } 
       else {
         if (child1Index < size) {
+          child1 = data[child1Index].getData();
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
           }
           break;
-        } else {
+        } 
+        else {
           break;
         }
       }
