@@ -30,10 +30,10 @@ class Node{
   
   void display() {
     fill(235);
-    ellipse(xcor, ycor, 60, 60);
+    ellipse(xcor, ycor, 70, 70);
     fill(0);
     textSize(30);
-    text("" + data, xcor - 18, ycor + 15);
+    text("" + data, xcor - 21, ycor + 10);
   }
 
 }
@@ -190,9 +190,9 @@ int radius;
 void setup() {
   size(1500, 1000);
   radius = 20;
-  heap = new Heap();
-  for (int k = 0; k < 10; k++) {
-    heap.add(k);
+  heap = new Heap(true);
+  for (int k = 0; k < 31; k++) {
+    heap.add((int) (k * random(10)));
   }
   Node[] data = heap.data;
   for (int i = 0 ;i < heap.size(); i++) {
@@ -203,13 +203,13 @@ void setup() {
 }
 
 void draw() {
-  background(51);
+  background(180);
   Node[] data = heap.data;
   for (int i = 0; i < heap.size(); i++) {
-    if (data[i] != null) {
-      data[i].display();
-    }
+    data[i].display();
   }
+  
+  rect(600, 100, 20, 20);
 }
 
 void  display() {
@@ -219,8 +219,14 @@ void  display() {
 void clear() {
 }
 
-void addValue(Integer i) {
+void addValue(int i) {
   heap.add(i);
+}
+
+void mousePressed() {
+  if (Math.abs(mouseX - 600) < 20 && Math.abs(mouseY - 100) < 20) {
+    removeValue();
+  }
 }
 
 void removeValue() {
