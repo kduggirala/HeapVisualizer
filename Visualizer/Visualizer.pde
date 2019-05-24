@@ -193,6 +193,7 @@ int getycor(int num) {
 
 Heap heap;
 int radius;
+int lastRemoved;
 void setup() {
   size(1500, 1000);
   radius = 20;
@@ -215,7 +216,17 @@ void draw() {
     data[i].display();
   }
   
-  rect(600, 100, 20, 20);
+  fill (255);
+  rect(80, 100, 120, 60);
+  fill(0);
+  textSize(30);
+  text("pop", 100, 140);
+  
+  fill (255);
+  rect(80, 850, 120, 60);
+  fill(0);
+  textSize(30);
+  text(lastRemoved, 100, 900);
 }
 
 void  display() {
@@ -223,6 +234,7 @@ void  display() {
 }
 
 void clear() {
+  heap.clear();
 }
 
 void addValue(int i) {
@@ -230,13 +242,14 @@ void addValue(int i) {
 }
 
 void mousePressed() {
-  if (Math.abs(mouseX - 600) < 20 && Math.abs(mouseY - 100) < 20) {
+  if (Math.abs(mouseX - 80) < 120 && Math.abs(mouseY - 100) < 60) {
     removeValue();
   }
 }
 
 void removeValue() {
-  heap.pop();
+  lastRemoved = heap.pop();
+  
 }
 
 void setHeapType(boolean isMaxHeap) {
