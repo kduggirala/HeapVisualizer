@@ -1,4 +1,4 @@
-
+import javax.swing.JOptionPane;
 class Node {
 
   private int data;
@@ -239,6 +239,19 @@ void drawline() {
 void mousePressed() {
   if (Math.abs(mouseX - 600) < 20 && Math.abs(mouseY - 100) < 20) {
     removeValue();
+  }
+}
+
+void keyPressed() {
+  if (key == ENTER) {
+    int i = 0;
+    String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
+    try {
+      i = Integer.parseInt(r);
+    } 
+    catch(NumberFormatException e) {
+      println("you did not enter a number!");
+    }
   }
 }
 
