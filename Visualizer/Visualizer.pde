@@ -59,8 +59,8 @@ class Heap {
   }
   int pop() {
     if (size > 0) {
-      int popped = data[--size].getData();
-      swap(0, size);
+      int popped = data[0].getData();
+      swap(0, --size);
       data[size] = null;
       pushDown(0);
       return popped;
