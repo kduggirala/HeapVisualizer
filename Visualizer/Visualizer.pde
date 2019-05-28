@@ -53,8 +53,9 @@ class Heap {
     this.isMaxHeap = isMaxHeap;
   }
 
-  void setHeapType(boolean isMax) {
-    isMaxHeap = isMax;
+  void switchHeapType() {
+    isMaxHeap = !isMaxHeap;
+    heapify();
   }
   int pop() {
     if (size > 0) {
@@ -214,7 +215,7 @@ void draw() {
     data[i].display();
   }
   drawline();
-  rect(600, 100, 20, 20);
+
   
   fill (255);
   rect(80, 100, 120, 60);
@@ -227,6 +228,12 @@ void draw() {
   fill(0);
   textSize(30);
   text(lastRemoved, 100, 900);
+  
+  fill (255);
+  rect(700, 900, 270, 60);
+  fill(0);
+  textSize(30);
+  text("switch heap type", 720, 940);
 }
 
 void  display() {
@@ -238,6 +245,9 @@ void clear() {
 
 void addValue(int i) {
   heap.add(i);
+  Node newNode = heap.data[heap.size() - 1];
+  newNode.setxcor(getxcor(heap.size() - 1));
+  newNode.setycor(getycor(heap.size() - 1));
 }
 
 void drawline() {
@@ -254,6 +264,9 @@ void mousePressed() {
   if (Math.abs(mouseX - 80) < 120 && Math.abs(mouseY - 100) < 60) {
     removeValue();
   }
+  if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
+    switchHeapType();
+  }  
 }
 
 void keyPressed() {
@@ -262,6 +275,7 @@ void keyPressed() {
     String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
     try {
       i = Integer.parseInt(r);
+      addValue(i);
     } 
     catch(NumberFormatException e) {
       println("you did not enter a number!");
@@ -277,6 +291,6 @@ void removeValue() {
   
 }
 
-void setHeapType(boolean isMaxHeap) {
-  heap.setHeapType(isMaxHeap);
+void switchHeapType() {
+  heap.switchHeapType();
 }
