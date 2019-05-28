@@ -53,13 +53,14 @@ class Heap {
     this.isMaxHeap = isMaxHeap;
   }
 
-  void setHeapType(boolean isMax) {
-    isMaxHeap = isMax;
+  void switchHeapType() {
+    isMaxHeap = !isMaxHeap;
+    heapify();
   }
   int pop() {
     if (size > 0) {
-      int popped = data[--size].getData();
-      swap(0, size);
+      int popped = data[0].getData();
+      swap(0, --size);
       data[size] = null;
       pushDown(0);
       return popped;
@@ -191,6 +192,7 @@ int getycor(int num) {
 Heap heap;
 int radius;
 int capacity;
+int lastRemoved;
 void setup() {
   size(1500, 1000);
   radius = 20;
@@ -213,17 +215,39 @@ void draw() {
     data[i].display();
   }
   drawline();
-  rect(600, 100, 20, 20);
+
+  
+  fill (255);
+  rect(80, 100, 120, 60);
+  fill(0);
+  textSize(30);
+  text("pop", 100, 140);
+  
+  fill (255);
+  rect(80, 850, 120, 60);
+  fill(0);
+  textSize(30);
+  text(lastRemoved, 100, 900);
+  
+  fill (255);
+  rect(700, 900, 270, 60);
+  fill(0);
+  textSize(30);
+  text("switch heap type", 720, 940);
 }
 
 void  display() {
 }
 
 void clear() {
+  heap.clear();
 }
 
 void addValue(int i) {
   heap.add(i);
+  Node newNode = heap.data[heap.size() - 1];
+  newNode.setxcor(getxcor(heap.size() - 1));
+  newNode.setycor(getycor(heap.size() - 1));
 }
 
 void drawline() {
@@ -237,9 +261,12 @@ void drawline() {
 }
 
 void mousePressed() {
-  if (Math.abs(mouseX - 600) < 20 && Math.abs(mouseY - 100) < 20) {
+  if (Math.abs(mouseX - 80) < 120 && Math.abs(mouseY - 100) < 60) {
     removeValue();
   }
+  if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
+    switchHeapType();
+  }  
 }
 
 void keyPressed() {
@@ -248,6 +275,7 @@ void keyPressed() {
     String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
     try {
       i = Integer.parseInt(r);
+      addValue(i);
     } 
     catch(NumberFormatException e) {
       println("you did not enter a number!");
@@ -256,9 +284,10 @@ void keyPressed() {
 }
 
 void removeValue() {
-  heap.pop();
+  lastRemoved = heap.pop();
+  
 }
 
-void setHeapType(boolean isMaxHeap) {
-  heap.setHeapType(isMaxHeap);
+void switchHeapType() {
+  heap.switchHeapType();
 }
