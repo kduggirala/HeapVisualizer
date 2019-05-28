@@ -1,0 +1,93 @@
+class Node<E> {
+  private E data;
+  int xcor;
+  int ycor;
+  Node(E value, int x, int y) {
+    data = value;
+    xcor = x;
+    ycor = y;
+  }
+  private E getData() {
+    return data;
+  }
+
+  private E setData(E newData) {
+    E old = data;
+    data = newData;
+    return old;
+  }
+
+  private void setxcor(int x) {
+    xcor = x;
+  }
+
+  private void setycor(int x) {
+    xcor = x;
+  }
+}
+
+class Heap<E> {
+  Node<E>[] data;
+  E pop() {
+    return null;
+  }
+  void pushUp() {
+  }
+  void pushDown() {
+  }
+  void heapify() {
+  }
+  void clear() {
+  }
+  void compareTo() {
+  }
+  
+  
+}
+
+static int log(int x, int base){
+  return (int) (Math.log(x) / Math.log(base));
+}
+
+Heap<Integer> heap;
+ArrayList<Integer> array;
+int num = heap.length;
+int xpos = 
+int ypos = log(num, 2) + 1;
+
+void setup() {
+  size(1000, 800);
+  heap = new Heap<Integer>();
+  for (int i = 0; i < heap.length; i++) {
+    heap.add(i);
+  }
+  
+}
+
+void draw() {
+  background(255);
+  
+  if (num == 0){
+    fill(100,100,100);
+    circle(xpos, ypos, 15);
+    
+  }
+  num--;
+}
+
+void display() {
+}
+
+void clear() {
+}
+
+void addValue(Integer i) {
+  heap.add(i);
+}
+
+void removeValue() {
+  heap.pop();
+}
+
+void setHeapType(boolean isMaxHeap) {
+}
