@@ -267,6 +267,9 @@ void keyPressed() {
       println("you did not enter a number!");
     }
   }
+  if (key == DELETE){
+    clear();
+  }
 }
 
 void removeValue() {
