@@ -1,5 +1,5 @@
 
-class Node{
+class Node {
 
   private int data;
   int xcor;
@@ -27,7 +27,7 @@ class Node{
   void setycor(int y) {
     ycor = y;
   }
-  
+
   void display() {
     fill(235);
     ellipse(xcor, ycor, 70, 70);
@@ -35,7 +35,6 @@ class Node{
     textSize(30);
     text("" + data, xcor - 21, ycor + 10);
   }
-
 }
 
 class Heap {
@@ -47,13 +46,13 @@ class Heap {
     size = 0;
     isMaxHeap = true;
   }
-  
+
   Heap(boolean isMaxHeap) {
     data = new Node[63];
     size = 0;
     this.isMaxHeap = isMaxHeap;
   }
-  
+
   void setHeapType(boolean isMax) {
     isMaxHeap = isMax;
   }
@@ -68,8 +67,8 @@ class Heap {
     return 0;
   }
   void add(int value) {
-     data[size] = new Node(value, 0, 0);
-     pushUp(size++);
+    data[size] = new Node(value, 0, 0);
+    pushUp(size++);
   }
   private void swap(int index1, int index2) {
     int temp = data[index1].getData();
@@ -79,12 +78,15 @@ class Heap {
   int size() {
     return size;
   }
+  int getData(int index) {
+    return data[index].getData();
+  }
   void pushDown(int index) {
     int child1Index, child2Index, child1, child2, cur;
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
-      
+
       cur = data[index].getData();
       if (child2Index < size) {
         child1 = data[child1Index].getData();
@@ -93,12 +95,10 @@ class Heap {
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
             index = child1Index;
-          } 
-          else {
+          } else {
             break;
           }
-        }
-        else { 
+        } else { 
           if (compareTo(child2, cur) > 0) {
             swap(child2Index, index);
             index = child2Index;
@@ -106,16 +106,14 @@ class Heap {
             break;
           }
         }
-      } 
-      else {
+      } else {
         if (child1Index < size) {
           child1 = data[child1Index].getData();
           if (compareTo(child1, cur) > 0) {
             swap(child1Index, index);
           }
           break;
-        } 
-        else {
+        } else {
           break;
         }
       }
@@ -124,18 +122,17 @@ class Heap {
   void pushUp(int index) {
     int parentIndex;
     int parent, cur;
-     while (index > 0) {
-        parentIndex = (index - 1) / 2;
-        parent = data[parentIndex].getData();
-        cur = data[index].getData();
-        if (compareTo(cur, parent) > 0) {
-          swap(index, parentIndex);
-          index = parentIndex;
-        }
-        else {
-          break;
-        }
-     }
+    while (index > 0) {
+      parentIndex = (index - 1) / 2;
+      parent = data[parentIndex].getData();
+      cur = data[index].getData();
+      if (compareTo(cur, parent) > 0) {
+        swap(index, parentIndex);
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
   }
   void heapify() {
     heapifyHelp(0);
@@ -149,20 +146,20 @@ class Heap {
     }
   }
 
-  void clear(){
+  void clear() {
     data = new Node[63];
     size = 0;
   }
   int compareTo(int e1, int e2) {    
     if (e1 > e2) {
-       return isMaxHeap ? 1 : -1;
+      return isMaxHeap ? 1 : -1;
     }
     if (e2 > e1) {
-      return isMaxHeap ? -1 : 1; 
+      return isMaxHeap ? -1 : 1;
+    } else {
+      return 0;
     }
-    else {return 0;}
   }
-  
 }
 
 
@@ -193,19 +190,20 @@ int getycor(int num) {
 
 Heap heap;
 int radius;
+int capacity;
 void setup() {
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
-  for (int k = 0; k < 31; k++) {
+  capacity = 31;
+  for (int k = 0; k < capacity; k++) {
     heap.add((int) (k * random(10)));
   }
   Node[] data = heap.data;
-  for (int i = 0 ;i < heap.size(); i++) {
+  for (int i = 0; i < heap.size(); i++) {
     data[i].setxcor(getxcor(i));
     data[i].setycor(getycor(i));
   }
-  
 }
 
 void draw() {
@@ -214,12 +212,11 @@ void draw() {
   for (int i = 0; i < heap.size(); i++) {
     data[i].display();
   }
-  
+  drawline();
   rect(600, 100, 20, 20);
 }
 
 void  display() {
-  
 }
 
 void clear() {
@@ -227,6 +224,13 @@ void clear() {
 
 void addValue(int i) {
   heap.add(i);
+}
+
+void drawline() {
+  for (int i = heap.size(); i >= 0; i--){
+      line(getxcor(i), getycor(i), getxcor(2*i+1), getycor(2*i+1));
+      line(getxcor(i), getycor(i), getxcor(2*i+2), getycor(2*i +2));
+  }
 }
 
 void mousePressed() {
