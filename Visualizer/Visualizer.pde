@@ -227,9 +227,12 @@ void addValue(int i) {
 }
 
 void drawline() {
-  for (int i = heap.size(); i >= 0; i--){
-      line(getxcor(i), getycor(i), getxcor(2*i+1), getycor(2*i+1));
-      line(getxcor(i), getycor(i), getxcor(2*i+2), getycor(2*i +2));
+  for (int i = 1; i < heap.size(); i++) {
+    if (i % 2 == 1) {
+      line(getxcor(i), getycor(i), getxcor(i/2), getycor(i/2));
+    } else {
+      line(getxcor(i), getycor(i), getxcor(i/2-1), getycor(i/2 -1));
+    }
   }
 }
 
