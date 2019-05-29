@@ -40,15 +40,17 @@ class Heap {
   Node[] data;
   int size;
   boolean isMaxHeap;
+  float time, delay;
   Heap() {
     data = new Node[63];
     size = 0;
     isMaxHeap = true;
+    delay = 1000;
+    time = millis() + delay;
   }
 
   Heap(boolean isMaxHeap) {
-    data = new Node[63];
-    size = 0;
+    this();
     this.isMaxHeap = isMaxHeap;
   }
 
@@ -57,17 +59,17 @@ class Heap {
     heapify();
   }
   int pop() {
-    if (size > 0) {
-      int popped = data[0].getData();
-      swap(0, --size);
-      data[size] = null;
-      pushDown(0);
-      return popped;
-    }
-    return 0;
+    return remove(0);
   }
   int remove(int i) {
-    return 0;
+    if (size > 0) {
+      int popped = data[i].getData();
+      swap(i, --size);
+      data[size] = null;
+      pushDown(i);
+      return popped;
+    }
+     return 0;
   }
   
   void add(int value) {
@@ -75,9 +77,12 @@ class Heap {
     pushUp(size++);
   }
   private void swap(int index1, int index2) {
+    time = millis() + delay;
+    while(millis() < time) {}
     int temp = data[index1].getData();
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
+    draw();
   }
   int size() {
     return size;
