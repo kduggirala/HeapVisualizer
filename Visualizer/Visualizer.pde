@@ -40,13 +40,10 @@ class Heap {
   Node[] data;
   int size;
   boolean isMaxHeap;
-  float time, delay;
   Heap() {
     data = new Node[63];
     size = 0;
     isMaxHeap = true;
-    delay = 1000;
-    time = millis() + delay;
   }
 
   Heap(boolean isMaxHeap) {
@@ -73,16 +70,18 @@ class Heap {
   }
   
   void add(int value) {
-    data[size] = new Node(value, 0, 0);
+    Node n = new Node(value, 0, 0);
+    n.setxcor(getxcor(size));
+    n.setycor(getycor(size));
+    data[size] = n;
     pushUp(size++);
+    
   }
   private void swap(int index1, int index2) {
-    time = millis() + delay;
-    while(millis() < time) {}
+    delay(1000);
     int temp = data[index1].getData();
     data[index1].setData(data[index2].getData());
     data[index2].setData(temp);
-    draw();
   }
   int size() {
     return size;
@@ -169,6 +168,37 @@ class Heap {
       return 0;
     }
   }
+  
+  private int getxcor(int num) {
+    int level = log(num, 2) + 1;
+    int offset = 1;
+    for (int i = (int) Math.pow(2, level - 1) - 1; i <num; i++ ) {
+      offset += 2;
+    }  
+    return (int) ((offset * width) / (Math.pow(2, level)));
+  }
+
+  private int getycor(int num) {
+    int level = log(num, 2) + 1;
+    int indent = (height - 12 * radius) / 7;
+    return indent * level + radius * (2 * level - 1);  
+  }
+  void display() {
+    for (int i = 0; i < heap.size(); i++) {
+      data[i].display();
+    }
+    drawline();
+  }
+ private void drawline() {
+  for (int i = 1; i < heap.size(); i++) {
+    if (i % 2 == 1) {
+      line(getxcor(i), getycor(i), getxcor(i/2), getycor(i/2));
+    } 
+    else {
+      line(getxcor(i), getycor(i), getxcor(i/2 - 1), getycor(i/2 - 1));
+    }
+  }
+}
 }
 
 
@@ -182,20 +212,7 @@ static int log(int x, int base) {
   return (int) (Math.log(x + 1) / Math.log(base));
 }
 
-int getxcor(int num) {
-  int level = log(num, 2) + 1;
-  int offset = 1;
-  for (int i = (int) Math.pow(2, level - 1) - 1; i <num; i++ ) {
-    offset += 2;
-  } 
-  return (int) ((offset * width) / (Math.pow(2, level)));
-}
 
-int getycor(int num) {
-  int level = log(num, 2) + 1;
-  int indent = (height - 12 * radius) / 7;
-  return indent * level + radius * (2 * level - 1);
-}
 
 Heap heap;
 int radius;
@@ -209,20 +226,12 @@ void setup() {
   for (int k = 0; k < capacity; k++) {
     heap.add((int) (random(100)));
   }
-  Node[] data = heap.data;
-  for (int i = 0; i < heap.size(); i++) {
-    data[i].setxcor(getxcor(i));
-    data[i].setycor(getycor(i));
-  }
 }
 
 void draw() {
   background(180);
-  Node[] data = heap.data;
-  for (int i = 0; i < heap.size(); i++) {
-    data[i].display();
-  }
-  drawline();
+  heap.display();
+  
 
   
   fill (255);
@@ -253,21 +262,9 @@ void clear() {
 
 void addValue(int i) {
   heap.add(i);
-  Node newNode = heap.data[heap.size() - 1];
-  newNode.setxcor(getxcor(heap.size() - 1));
-  newNode.setycor(getycor(heap.size() - 1));
 }
 
-void drawline() {
-  for (int i = 1; i < heap.size(); i++) {
-    if (i % 2 == 1) {
-      line(getxcor(i), getycor(i), getxcor(i/2), getycor(i/2));
-    } 
-    else {
-      line(getxcor(i), getycor(i), getxcor(i/2 - 1), getycor(i/2 - 1));
-    }
-  }
-}
+
 
 void mousePressed() {
   if (Math.abs(mouseX - 140) <= 60 && Math.abs(mouseY - 930) <= 30) {
