@@ -74,9 +74,8 @@ class Heap {
     Node n = new Node(value, 0, 0);
     n.setxcor(getxcor(size));
     n.setycor(getycor(size));
-    data[size++] = n;
-    display();
-    pushUp(size - 1);
+    data[size] = n;
+    pushUp(size++);
     
   }
   void swap(int index1, int index2) {
@@ -138,19 +137,19 @@ class Heap {
     pairsIter = pairsToSwap.iterator();
   }
   void pushUp(int index) {
-    int parentIndex;
-    int parent, cur;
+    int parentIndex, parent;
+    int curIndex = index;
+    int cur = data[index].getData();
     pairsToSwap = new ArrayList<int[]>();
-    while (index > 0) {
-      parentIndex = (index - 1) / 2;
+    while (curIndex > 0) {
+      parentIndex = (curIndex - 1) / 2;
       parent = data[parentIndex].getData();
-      cur = data[index].getData();
       if (compareTo(cur, parent) > 0) {
-        int[] pair = {index, parentIndex};
+        int[] pair = {curIndex, parentIndex};
         pairsToSwap.add(pair);
-        swap(index, parentIndex);
-        index = parentIndex;
-      } else {
+        curIndex = parentIndex;
+      } 
+      else {
         break;
       }
     }
@@ -239,7 +238,7 @@ void setup() {
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
-  capacity = 0;
+
   for (int k = 0; k < capacity; k++) {
     heap.add((int) (random(100)));
   }
