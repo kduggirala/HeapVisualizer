@@ -91,7 +91,6 @@ class Heap {
   }
   void pushDown(int index) {
     int child1Index, child2Index, child1, child2, cur;
-    pairsToSwap = new ArrayList<int[]>();
     while (index < size) {
       child1Index = (2 * index) + 1;
       child2Index = child1Index + 1;
@@ -134,13 +133,11 @@ class Heap {
         }
       }
     }
-    pairsIter = pairsToSwap.iterator();
   }
   void pushUp(int index) {
     int parentIndex, parent;
     int curIndex = index;
     int cur = data[index].getData();
-    pairsToSwap = new ArrayList<int[]>();
     while (curIndex > 0) {
       parentIndex = (curIndex - 1) / 2;
       parent = data[parentIndex].getData();
@@ -153,7 +150,6 @@ class Heap {
         break;
       }
     }
-    pairsIter = pairsToSwap.iterator();
   }
   void heapify() {
     heapifyHelp(0);
@@ -231,8 +227,7 @@ Heap heap;
 int radius;
 int capacity;
 int lastRemoved;
-ArrayList<int[]> pairsToSwap;
-Iterator<int[]> pairsIter;
+LinkedList<int[]> pairsToSwap;
 int[] pair;
 void setup() {
   size(1500, 1000);
@@ -242,6 +237,8 @@ void setup() {
   for (int k = 0; k < capacity; k++) {
     heap.add((int) (random(100)));
   }
+  
+  pairsToSwap = new LinkedList<int[]>();
 }
 
 void draw() {
@@ -267,11 +264,13 @@ void draw() {
   textSize(30);
   text("switch heap type", 720, 940);
   
-  if (pairsIter != null && pairsIter.hasNext()) {
-    pair = pairsIter.next();
-    heap.swap(pair[0], pair[1]);
+  
+  if (pairsToSwap.size() > 0) {
     delay(1000);
+    pair = pairsToSwap.removeFirst();
+    heap.swap(pair[0], pair[1]);
   }
+ 
 }
 
 
