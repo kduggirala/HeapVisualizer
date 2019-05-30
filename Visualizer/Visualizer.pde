@@ -215,7 +215,6 @@ void draw() {
     data[i].display();
   }
   drawline();
-
   
   fill (255);
   rect(80, 100, 120, 60);
@@ -237,6 +236,7 @@ void draw() {
 }
 
 void  display() {
+  
 }
 
 void clear() {
@@ -266,7 +266,12 @@ void mousePressed() {
   }
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
-  }  
+  }
+  if (Math.abs(mouseX - radius) < getxcor(mouseX) && Math.abs(mouseY - radius) < getycor(mouseY)){
+    strokeWeight(5);
+    stroke(255,0,0);
+  }
+  
 }
 
 void keyPressed() {
