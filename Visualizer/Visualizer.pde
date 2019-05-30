@@ -90,19 +90,20 @@ class Heap {
     return data[index].getData();
   }
   void pushDown(int index) {
-    int child1Index, child2Index, child1, child2, cur;
-    while (index < size) {
-      child1Index = (2 * index) + 1;
+    int child1Index, child2Index, child1, child2;
+    int curIndex = index;
+    int cur = data[index].getData();
+    while (curIndex < size) {
+      child1Index = (2 * curIndex) + 1;
       child2Index = child1Index + 1;
-      cur = data[index].getData();
       if (child2Index < size) {
         child1 = data[child1Index].getData();
         child2 = data[child2Index].getData();
         if (compareTo(child1, child2) > 0) {
           if (compareTo(child1, cur) > 0) {
-            int[] pair = {child1Index, index};
+            int[] pair = {child1Index, curIndex};
             pairsToSwap.add(pair);
-            index = child1Index;
+            curIndex = child1Index;
           } 
           else {
             break;
@@ -110,9 +111,9 @@ class Heap {
         } 
         else { 
           if (compareTo(child2, cur) > 0) {
-            int[] pair = {child2Index, index};
+            int[] pair = {child2Index, curIndex};
             pairsToSwap.add(pair);
-            index = child2Index;
+            curIndex = child2Index;
           } 
           else {
             break;
@@ -123,7 +124,7 @@ class Heap {
         if (child1Index < size) {
           child1 = data[child1Index].getData();
           if (compareTo(child1, cur) > 0) {
-            int[] pair = {child1Index, index};
+            int[] pair = {child1Index, curIndex};
             pairsToSwap.add(pair);
           }
           break;
@@ -230,6 +231,7 @@ int lastRemoved;
 LinkedList<int[]> pairsToSwap;
 int[] pair;
 void setup() {
+  frameRate(1);
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
@@ -266,7 +268,7 @@ void draw() {
   
   
   if (pairsToSwap.size() > 0) {
-    delay(1000);
+    System.out.println(pairsToSwap.size());
     pair = pairsToSwap.removeFirst();
     heap.swap(pair[0], pair[1]);
   }
