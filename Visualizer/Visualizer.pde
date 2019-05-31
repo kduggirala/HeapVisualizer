@@ -1,13 +1,14 @@
 import javax.swing.JOptionPane;
 class Node {
-
   private int data;
   int xcor;
   int ycor;
+  boolean selected;
   Node(int value, int x, int y) {
     data = value;
     xcor = x;
     ycor = y;
+    selected = false;
   }
 
   public int getData() {
@@ -20,6 +21,14 @@ class Node {
     return old;
   }
 
+  int getxcor() {
+    return xcor;
+  }
+
+  int getycor() {
+    return ycor;
+  }
+
   void setxcor(int x) {
     xcor = x;
   }
@@ -29,11 +38,24 @@ class Node {
   }
 
   void display() {
-    fill(235);
-    ellipse(xcor, ycor, 70, 70);
-    fill(0);
-    textSize(30);
-    text("" + data, xcor - 21, ycor + 10);
+    if (selected == false) {
+      fill(235);
+      ellipse(xcor, ycor, 70, 70);
+      fill(0);
+      stroke(1);
+      stroke(0, 0, 0);
+      textSize(30);
+      text("" + data, xcor - 21, ycor + 10);
+    } else {
+      fill(235);
+      strokeWeight(5); 
+      stroke(255, 0, 0); 
+      ellipse(xcor, ycor, 70, 70);
+      stroke(1);
+      stroke(0, 0, 0);
+      textSize(30);
+      text("" + data, xcor - 21, ycor + 10);
+    }
   }
 }
 
@@ -163,7 +185,6 @@ class Heap {
   }
 }
 
-
 static int log(int x, int base) {
   if (x == 0) {
     return 0;
@@ -193,13 +214,11 @@ Heap heap;
 int radius;
 int capacity;
 int lastRemoved;
-boolean selected;
 void setup() {
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
   capacity = 31;
-  selected = false;
   for (int k = 0; k < capacity; k++) {
     heap.add((int) (k * random(10)));
   }
@@ -268,42 +287,29 @@ void mousePressed() {
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
   }
-  for (int i = 0; i < heap.size(); i++) {
-    if (Math.abs(mouseX - radius) < getxcor(i) && Math.abs(mouseY - radius) < getycor(i)) {
-      if (selected == false) {
-        strokeWeight(5);
-        stroke(255, 0, 0);
-        selected = true;
-      } else {
-        strokeWeight(1);
-        stroke(0, 0, 0);
-        selected = false;
-      }
+}
+
+void keyPressed() {
+  if (key == ENTER) {
+    int i = 0; 
+    String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE); 
+    try {
+      i = Integer.parseInt(r); 
+      addValue(i);
+    } 
+    catch(NumberFormatException e) {
+      println("you did not enter a number!");
     }
+  }
+  if (key == DELETE) {
+    clear();
   }
 }
 
-  void keyPressed() {
-    if (key == ENTER) {
-      int i = 0;
-      String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
-      try {
-        i = Integer.parseInt(r);
-        addValue(i);
-      } 
-      catch(NumberFormatException e) {
-        println("you did not enter a number!");
-      }
-    }
-    if (key == DELETE) {
-      clear();
-    }
-  }
+void removeValue() {
+  lastRemoved = heap.pop();
+}
 
-  void removeValue() {
-    lastRemoved = heap.pop();
-  }
-
-  void switchHeapType() {
-    heap.switchHeapType();
-  }
+void switchHeapType() {
+  heap.switchHeapType();
+}
