@@ -193,11 +193,13 @@ Heap heap;
 int radius;
 int capacity;
 int lastRemoved;
+boolean selected;
 void setup() {
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
   capacity = 31;
+  selected = false;
   for (int k = 0; k < capacity; k++) {
     heap.add((int) (k * random(10)));
   }
@@ -215,19 +217,19 @@ void draw() {
     data[i].display();
   }
   drawline();
-  
+
   fill (255);
   rect(80, 100, 120, 60);
   fill(0);
   textSize(30);
   text("pop", 100, 140);
-  
+
   fill (255);
   rect(80, 850, 120, 60);
   fill(0);
   textSize(30);
   text(lastRemoved, 100, 900);
-  
+
   fill (255);
   rect(700, 900, 270, 60);
   fill(0);
@@ -236,7 +238,6 @@ void draw() {
 }
 
 void  display() {
-  
 }
 
 void clear() {
@@ -267,35 +268,42 @@ void mousePressed() {
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
   }
-  if (Math.abs(mouseX - radius) < getxcor(mouseX) && Math.abs(mouseY - radius) < getycor(mouseY)){
-    strokeWeight(5);
-    stroke(255,0,0);
-  }
-  
-}
-
-void keyPressed() {
-  if (key == ENTER) {
-    int i = 0;
-    String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
-    try {
-      i = Integer.parseInt(r);
-      addValue(i);
-    } 
-    catch(NumberFormatException e) {
-      println("you did not enter a number!");
+  for (int i = 0; i < heap.size(); i++) {
+    if (Math.abs(mouseX - radius) < getxcor(i) && Math.abs(mouseY - radius) < getycor(i)) {
+      if (selected == false) {
+        strokeWeight(5);
+        stroke(255, 0, 0);
+        selected = true;
+      } else {
+        strokeWeight(1);
+        stroke(0, 0, 0);
+        selected = false;
+      }
     }
   }
-  if (key == DELETE){
-    clear();
+}
+
+  void keyPressed() {
+    if (key == ENTER) {
+      int i = 0;
+      String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
+      try {
+        i = Integer.parseInt(r);
+        addValue(i);
+      } 
+      catch(NumberFormatException e) {
+        println("you did not enter a number!");
+      }
+    }
+    if (key == DELETE) {
+      clear();
+    }
   }
-}
 
-void removeValue() {
-  lastRemoved = heap.pop();
-  
-}
+  void removeValue() {
+    lastRemoved = heap.pop();
+  }
 
-void switchHeapType() {
-  heap.switchHeapType();
-}
+  void switchHeapType() {
+    heap.switchHeapType();
+  }
