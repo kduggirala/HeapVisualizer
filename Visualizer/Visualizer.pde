@@ -287,7 +287,24 @@ void mousePressed() {
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
   }
+
+  if (heap.data[mouseinnode(mouseX, mouseY)].selected == true) {
+    heap.data[mouseinnode(mouseX, mouseY)].selected = false;
+  } else {
+    heap.data[mouseinnode(mouseX, mouseY)].selected = true;
+  }
 }
+
+int mouseinnode(int x, int y) {
+  for (int i = 0; i < heap.size(); i++) {
+    if (Math.abs(x - radius) < heap.data[i].getxcor() && Math.abs(mouseY - radius) < heap.data[i].getycor()) {
+      return i;
+    }
+  }
+  return 0;
+}
+
+
 
 void keyPressed() {
   if (key == ENTER) {
