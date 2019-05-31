@@ -38,11 +38,13 @@ class Node {
 }
 
 class Heap {
-  Node[] data;
+  Node[] nodes;
+  private int[] data;
   int size;
   boolean isMaxHeap;
   Heap() {
-    data = new Node[63];
+    nodes = new Node[63];
+    data = new int[63];
     size = 0;
     isMaxHeap = true;
   }
@@ -61,48 +63,51 @@ class Heap {
   }
   int remove(int i) {
     if (size > 0) {
-      int popped = data[i].getData();
+      int popped = data[i];
       swap(i, --size);
-      data[size] = null;
+      data[size] = 0;
+      nodes[size] = null;
       pushDown(i);
       return popped;
     }
-     return 0;
+    return 0;
   }
   
   void add(int value) {
-    Node n = new Node(value, 0, 0);
-    n.setxcor(getxcor(size));
-    n.setycor(getycor(size));
-    data[size] = n;
+    Node n = new Node(value, getxcor(size), getycor(size));
+    nodes[size] = n;
+    data[size] = value;
     pushUp(size++);
-    
   }
   void swap(int index1, int index2) {
-    int temp = data[index1].getData();
-    data[index1].setData(data[index2].getData());
-    data[index2].setData(temp);
+    int temp = data[index1];
+    data[index1] = data[index2];
+    data[index2] = temp;
+  }
+  void swapNodes(int index1, int index2) {
+    int temp = nodes[index1].getData();
+    nodes[index1].setData(nodes[index2].getData());
+    nodes[index2].setData(temp);
   }
   int size() {
     return size;
   }
-  int getData(int index) {
-    return data[index].getData();
-  }
+  
   void pushDown(int index) {
     int child1Index, child2Index, child1, child2;
     int curIndex = index;
-    int cur = data[index].getData();
+    int cur = data[index];
     while (curIndex < size) {
       child1Index = (2 * curIndex) + 1;
       child2Index = child1Index + 1;
       if (child2Index < size) {
-        child1 = data[child1Index].getData();
-        child2 = data[child2Index].getData();
+        child1 = data[child1Index];
+        child2 = data[child2Index];
         if (compareTo(child1, child2) > 0) {
           if (compareTo(child1, cur) > 0) {
             int[] pair = {child1Index, curIndex};
             pairsToSwap.add(pair);
+            swap(child1Index, curIndex);
             curIndex = child1Index;
           } 
           else {
@@ -113,6 +118,7 @@ class Heap {
           if (compareTo(child2, cur) > 0) {
             int[] pair = {child2Index, curIndex};
             pairsToSwap.add(pair);
+            swap(child2Index, curIndex);
             curIndex = child2Index;
           } 
           else {
@@ -122,10 +128,11 @@ class Heap {
       } 
       else {
         if (child1Index < size) {
-          child1 = data[child1Index].getData();
+          child1 = data[child1Index];
           if (compareTo(child1, cur) > 0) {
             int[] pair = {child1Index, curIndex};
             pairsToSwap.add(pair);
+            swap(child1Index, curIndex);
           }
           break;
         } 
@@ -136,15 +143,20 @@ class Heap {
     }
   }
   void pushUp(int index) {
+    
+    
+    
     int parentIndex, parent;
     int curIndex = index;
-    int cur = data[index].getData();
+    int cur = data[index];
     while (curIndex > 0) {
       parentIndex = (curIndex - 1) / 2;
-      parent = data[parentIndex].getData();
+      parent = data[parentIndex];
+      cur = data[curIndex];
       if (compareTo(cur, parent) > 0) {
         int[] pair = {curIndex, parentIndex};
         pairsToSwap.add(pair);
+        swap(curIndex, parentIndex);
         curIndex = parentIndex;
       } 
       else {
@@ -165,7 +177,8 @@ class Heap {
   }
 
   void clear() {
-    data = new Node[63];
+    nodes = new Node[63];
+    data = new int[63];
     size = 0;
   }
   int compareTo(int e1, int e2) {    
@@ -195,7 +208,7 @@ class Heap {
   }
   void display() {
     for (int i = 0; i < size; i++) {
-      data[i].display();
+      nodes[i].display();
     }
     drawline();
   }
@@ -268,9 +281,8 @@ void draw() {
   
   
   if (pairsToSwap.size() > 0) {
-    System.out.println(pairsToSwap.size());
     pair = pairsToSwap.removeFirst();
-    heap.swap(pair[0], pair[1]);
+    heap.swapNodes(pair[0], pair[1]);
   }
  
 }
