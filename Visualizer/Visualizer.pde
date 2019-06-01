@@ -40,6 +40,8 @@ class Node {
   void display() {
     if (selected == false) {
       fill(235);
+      strokeWeight(1); 
+      stroke(0, 0, 0); 
       ellipse(xcor, ycor, 70, 70);
       fill(0);
       stroke(1);
@@ -214,6 +216,7 @@ Heap heap;
 int radius;
 int capacity;
 int lastRemoved;
+int selectednode;
 void setup() {
   size(1500, 1000);
   radius = 20;
@@ -236,7 +239,6 @@ void draw() {
     data[i].display();
   }
   drawline();
-
   fill (255);
   rect(80, 100, 120, 60);
   fill(0);
@@ -287,21 +289,24 @@ void mousePressed() {
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
   }
-
-  if (heap.data[mouseinnode(mouseX, mouseY)].selected == true) {
-    heap.data[mouseinnode(mouseX, mouseY)].selected = false;
-  } else {
-    heap.data[mouseinnode(mouseX, mouseY)].selected = true;
+  if (mouseinnode(mouseX, mouseY)){
+    if (heap.data[selectednode].selected == true) {
+      heap.data[selectednode].selected = false;
+    } else {
+      heap.data[selectednode].selected = true;
+    }
   }
 }
 
-int mouseinnode(int x, int y) {
+
+boolean mouseinnode(int x, int y) {
   for (int i = 0; i < heap.size(); i++) {
-    if (Math.abs(x - radius) < heap.data[i].getxcor() && Math.abs(mouseY - radius) < heap.data[i].getycor()) {
-      return i;
+    if (Math.abs(mouseX - heap.data[i].getxcor()) < radius  && Math.abs(mouseY - heap.data[i].getycor()) < radius) {
+      selectednode = i;
+      return true;
     }
   }
-  return 0;
+  return false;
 }
 
 
