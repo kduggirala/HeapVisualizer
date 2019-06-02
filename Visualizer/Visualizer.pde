@@ -44,7 +44,7 @@ class Node {
       stroke(0, 0, 0); 
       ellipse(xcor, ycor, 70, 70);
       fill(0);
-      stroke(1);
+      strokeWeight(1);
       stroke(0, 0, 0);
       textSize(30);
       text("" + data, xcor - 21, ycor + 10);
@@ -54,7 +54,7 @@ class Node {
       stroke(255, 0, 0); 
       ellipse(xcor, ycor, 70, 70);
       fill(0);
-      stroke(1);
+      strokeWeight(1);
       stroke(0, 0, 0);
       textSize(30);
       text("" + data, xcor - 21, ycor + 10);
@@ -240,6 +240,7 @@ void draw() {
     data[i].display();
   }
   drawline();
+  
   fill (255);
   rect(80, 100, 120, 60);
   fill(0);
@@ -301,15 +302,13 @@ void mousePressed() {
 
 boolean mouseinnode(int x, int y) {
   for (int i = 0; i < heap.size(); i++) {
-    if (Math.abs(mouseX - heap.data[i].getxcor()) < radius  && Math.abs(mouseY - heap.data[i].getycor()) < radius) {
+    if (Math.abs(mouseX - heap.data[i].getxcor()) < radius * 2 && Math.abs(mouseY - heap.data[i].getycor()) < radius * 2) {
       selectednode = i;
       return true;
     }
   }
   return false;
 }
-
-
 
 void keyPressed() {
   if (key == ENTER) {
@@ -325,9 +324,6 @@ void keyPressed() {
   }
   if (key == DELETE) {
     clear();
-  }
-  if (key == BACKSPACE){
-    
   }
 }
 
