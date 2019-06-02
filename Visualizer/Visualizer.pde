@@ -1,4 +1,5 @@
 import javax.swing.JOptionPane;
+import java.util.*;
 class Node {
   private int data;
   int xcor;
@@ -63,18 +64,19 @@ class Node {
 }
 
 class Heap {
-  Node[] data;
+  Node[] nodes;
+  private int[] data;
   int size;
   boolean isMaxHeap;
   Heap() {
-    data = new Node[63];
+    nodes = new Node[63];
+    data = new int[63];
     size = 0;
     isMaxHeap = true;
   }
 
   Heap(boolean isMaxHeap) {
-    data = new Node[63];
-    size = 0;
+    this();
     this.isMaxHeap = isMaxHeap;
   }
 
@@ -83,79 +85,104 @@ class Heap {
     heapify();
   }
   int pop() {
+    return remove(0);
+  }
+  int remove(int i) {
     if (size > 0) {
-      int popped = data[0].getData();
-      swap(0, --size);
-      data[size] = null;
-      pushDown(0);
+      int popped = data[i];
+      swap(i, --size);
+      data[size] = 0;
+      nodes[size] = null;
+      pushDown(i);
       return popped;
     }
     return 0;
   }
+  
   void add(int value) {
-    data[size] = new Node(value, 0, 0);
+    Node n = new Node(value, getxcor(size), getycor(size));
+    nodes[size] = n;
+    data[size] = value;
     pushUp(size++);
   }
-  private void swap(int index1, int index2) {
-    int temp = data[index1].getData();
-    data[index1].setData(data[index2].getData());
-    data[index2].setData(temp);
+  void swap(int index1, int index2) {
+    int temp = data[index1];
+    data[index1] = data[index2];
+    data[index2] = temp;
+  }
+  void swapNodes(int index1, int index2) {
+    int temp = nodes[index1].getData();
+    nodes[index1].setData(nodes[index2].getData());
+    nodes[index2].setData(temp);
   }
   int size() {
     return size;
   }
-  int getData(int index) {
-    return data[index].getData();
-  }
+  
   void pushDown(int index) {
-    int child1Index, child2Index, child1, child2, cur;
-    while (index < size) {
-      child1Index = (2 * index) + 1;
+    int child1Index, child2Index, child1, child2;
+    int curIndex = index;
+    int cur = data[index];
+    while (curIndex < size) {
+      child1Index = (2 * curIndex) + 1;
       child2Index = child1Index + 1;
-
-      cur = data[index].getData();
       if (child2Index < size) {
-        child1 = data[child1Index].getData();
-        child2 = data[child2Index].getData();
+        child1 = data[child1Index];
+        child2 = data[child2Index];
         if (compareTo(child1, child2) > 0) {
           if (compareTo(child1, cur) > 0) {
-            swap(child1Index, index);
-            index = child1Index;
-          } else {
+            int[] pair = {child1Index, curIndex};
+            pairsToSwap.add(pair);
+            swap(child1Index, curIndex);
+            curIndex = child1Index;
+          } 
+          else {
             break;
           }
-        } else { 
+        } 
+        else { 
           if (compareTo(child2, cur) > 0) {
-            swap(child2Index, index);
-            index = child2Index;
-          } else {
+            int[] pair = {child2Index, curIndex};
+            pairsToSwap.add(pair);
+            swap(child2Index, curIndex);
+            curIndex = child2Index;
+          } 
+          else {
             break;
           }
         }
-      } else {
+      } 
+      else {
         if (child1Index < size) {
-          child1 = data[child1Index].getData();
+          child1 = data[child1Index];
           if (compareTo(child1, cur) > 0) {
-            swap(child1Index, index);
+            int[] pair = {child1Index, curIndex};
+            pairsToSwap.add(pair);
+            swap(child1Index, curIndex);
           }
           break;
-        } else {
+        } 
+        else {
           break;
         }
       }
     }
   }
   void pushUp(int index) {
-    int parentIndex;
-    int parent, cur;
-    while (index > 0) {
-      parentIndex = (index - 1) / 2;
-      parent = data[parentIndex].getData();
-      cur = data[index].getData();
+    int parentIndex, parent;
+    int curIndex = index;
+    int cur = data[index];
+    while (curIndex > 0) {
+      parentIndex = (curIndex - 1) / 2;
+      parent = data[parentIndex];
+      cur = data[curIndex];
       if (compareTo(cur, parent) > 0) {
-        swap(index, parentIndex);
-        index = parentIndex;
-      } else {
+        int[] pair = {curIndex, parentIndex};
+        pairsToSwap.add(pair);
+        swap(curIndex, parentIndex);
+        curIndex = parentIndex;
+      } 
+      else {
         break;
       }
     }
@@ -173,7 +200,8 @@ class Heap {
   }
 
   void clear() {
-    data = new Node[63];
+    nodes = new Node[63];
+    data = new int[63];
     size = 0;
   }
   int compareTo(int e1, int e2) {    
@@ -186,6 +214,37 @@ class Heap {
       return 0;
     }
   }
+  
+  private int getxcor(int num) {
+    int level = log(num, 2) + 1;
+    int offset = 1;
+    for (int i = (int) Math.pow(2, level - 1) - 1; i <num; i++ ) {
+      offset += 2;
+    }  
+    return (int) ((offset * width) / (Math.pow(2, level)));
+  }
+
+  private int getycor(int num) {
+    int level = log(num, 2) + 1;
+    int indent = (height - 12 * radius) / 7;
+    return indent * level + radius * (2 * level - 1);  
+  }
+  void display() {
+    for (int i = 0; i < size; i++) {
+      nodes[i].display();
+    }
+    drawline();
+  }
+ private void drawline() {
+  for (int i = 1; i < heap.size(); i++) {
+    if (i % 2 == 1) {
+      line(getxcor(i), getycor(i), getxcor(i/2), getycor(i/2));
+    } 
+    else {
+      line(getxcor(i), getycor(i), getxcor(i/2 - 1), getycor(i/2 - 1));
+    }
+  }
+}
 }
 
 static int log(int x, int base) {
@@ -198,111 +257,80 @@ static int log(int x, int base) {
   return (int) (Math.log(x + 1) / Math.log(base));
 }
 
-int getxcor(int num) {
-  int level = log(num, 2) + 1;
-  int offset = 1;
-  for (int i = (int) Math.pow(2, level - 1) - 1; i <num; i++ ) {
-    offset += 2;
-  } 
-  return (int) ((offset * width) / (Math.pow(2, level)));
-}
 
-int getycor(int num) {
-  int level = log(num, 2) + 1;
-  int indent = (height - 12 * radius) / 7;
-  return indent * level + radius * (2 * level - 1);
-}
 
 Heap heap;
 int radius;
 int capacity;
 int lastRemoved;
 int selectednode;
+LinkedList<int[]> pairsToSwap;
+int[] pair;
 void setup() {
+  frameRate(5);
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
-  capacity = 31;
+
   for (int k = 0; k < capacity; k++) {
-    heap.add((int) (k * random(10)));
+    heap.add((int) (random(100)));
   }
-  Node[] data = heap.data;
-  for (int i = 0; i < heap.size(); i++) {
-    data[i].setxcor(getxcor(i));
-    data[i].setycor(getycor(i));
-  }
+  
+  pairsToSwap = new LinkedList<int[]>();
 }
 
 void draw() {
   background(180);
-  Node[] data = heap.data;
-  for (int i = 0; i < heap.size(); i++) {
-    data[i].display();
-  }
-  drawline();
+  
+  heap.display();
   
   fill (255);
-  rect(80, 100, 120, 60);
+  rect(80, 900, 120, 60);
   fill(0);
   textSize(30);
-  text("pop", 100, 140);
-
+  text("pop", 100, 940);
+  
   fill (255);
-  rect(80, 850, 120, 60);
+  rect(280, 900, 270, 60);
   fill(0);
   textSize(30);
-  text(lastRemoved, 100, 900);
-
+  text("removed: " + lastRemoved, 300, 940);
+  
   fill (255);
   rect(700, 900, 270, 60);
   fill(0);
   textSize(30);
   text("switch heap type", 720, 940);
-}
-
-void  display() {
-}
-
-void clear() {
-  heap.clear();
-}
-
-void addValue(int i) {
-  heap.add(i);
-  Node newNode = heap.data[heap.size() - 1];
-  newNode.setxcor(getxcor(heap.size() - 1));
-  newNode.setycor(getycor(heap.size() - 1));
-}
-
-void drawline() {
-  for (int i = 1; i < heap.size(); i++) {
-    if (i % 2 == 1) {
-      line(getxcor(i), getycor(i), getxcor(i/2), getycor(i/2));
-    } else {
-      line(getxcor(i), getycor(i), getxcor(i/2-1), getycor(i/2 -1));
-    }
+  
+  
+  if (pairsToSwap.size() > 0) {
+    pair = pairsToSwap.removeFirst();
+    heap.swapNodes(pair[0], pair[1]);
   }
+ 
 }
+
+
 
 void mousePressed() {
-  if (Math.abs(mouseX - 80) < 120 && Math.abs(mouseY - 100) < 60) {
-    removeValue();
+  if (Math.abs(mouseX - 140) <= 60 && Math.abs(mouseY - 930) <= 30) {
+    lastRemoved = heap.pop();
   }
-  if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
-    switchHeapType();
-  }
+  if (Math.abs(mouseX - 835) <= 135 && Math.abs(mouseY - 930) <= 30) {
+    heap.switchHeapType();
+  }  
   if (mouseinnode(mouseX, mouseY)) {
-    if (heap.data[selectednode].selected == true) {
-      heap.data[selectednode].selected = false;
+    if (heap.nodes[selectednode].selected == true) {
+      heap.nodes[selectednode].selected = false;
     } else {
-      heap.data[selectednode].selected = true;
+      heap.nodes[selectednode].selected = true;
     }
   }
 }
 
 boolean mouseinnode(int x, int y) {
   for (int i = 0; i < heap.size(); i++) {
-    if (Math.abs(mouseX - heap.data[i].getxcor()) < radius * 2 && Math.abs(mouseY - heap.data[i].getycor()) < radius * 2) {
+    if (Math.abs(mouseX - heap.nodes[i].getxcor()) < radius * 2 && Math.abs(mouseY - heap.nodes[i].getycor()) < radius * 2) {
       selectednode = i;
       return true;
     }
@@ -312,25 +340,17 @@ boolean mouseinnode(int x, int y) {
 
 void keyPressed() {
   if (key == ENTER) {
-    int i = 0; 
-    String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE); 
+    int i = 0;
+    String r = JOptionPane.showInputDialog(null, "What number?", "Decide", JOptionPane.QUESTION_MESSAGE);
     try {
-      i = Integer.parseInt(r); 
-      addValue(i);
+      i = Integer.parseInt(r);
+      heap.add(i);
     } 
     catch(NumberFormatException e) {
       println("you did not enter a number!");
     }
   }
-  if (key == DELETE) {
-    clear();
+  if (key == DELETE){
+    heap.clear();
   }
-}
-
-void removeValue() {
-  lastRemoved = heap.pop();
-}
-
-void switchHeapType() {
-  heap.switchHeapType();
 }
