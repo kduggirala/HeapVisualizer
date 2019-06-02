@@ -53,6 +53,7 @@ class Node {
       strokeWeight(5); 
       stroke(255, 0, 0); 
       ellipse(xcor, ycor, 70, 70);
+      fill(0);
       stroke(1);
       stroke(0, 0, 0);
       textSize(30);
@@ -289,7 +290,7 @@ void mousePressed() {
   if (Math.abs(mouseX- 700) < 270 && Math.abs(mouseY - 900) < 60) {
     switchHeapType();
   }
-  if (mouseinnode(mouseX, mouseY)){
+  if (mouseinnode(mouseX, mouseY)) {
     if (heap.data[selectednode].selected == true) {
       heap.data[selectednode].selected = false;
     } else {
@@ -297,7 +298,6 @@ void mousePressed() {
     }
   }
 }
-
 
 boolean mouseinnode(int x, int y) {
   for (int i = 0; i < heap.size(); i++) {
@@ -325,6 +325,9 @@ void keyPressed() {
   }
   if (key == DELETE) {
     clear();
+  }
+  if (key == BACKSPACE){
+    
   }
 }
 
