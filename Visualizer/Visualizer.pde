@@ -49,7 +49,8 @@ class Node {
       stroke(0, 0, 0);
       textSize(30);
       text("" + data, xcor - 21, ycor + 10);
-    } else {
+    } 
+    else {
       fill(235);
       strokeWeight(5); 
       stroke(255, 0, 0); 
@@ -90,10 +91,12 @@ class Heap {
   int remove(int i) {
     if (size > 0) {
       int popped = data[i];
+      swapNodes(i, size - 1);
       swap(i, --size);
       data[size] = 0;
       nodes[size] = null;
       pushDown(i);
+      frame = frameCount;
       return popped;
     }
     return 0;
@@ -104,6 +107,7 @@ class Heap {
     nodes[size] = n;
     data[size] = value;
     pushUp(size++);
+    frame = frameCount;
   }
   void swap(int index1, int index2) {
     int temp = data[index1];
@@ -266,8 +270,8 @@ int lastRemoved;
 int selectednode;
 LinkedList<int[]> pairsToSwap;
 int[] pair;
+int frame;
 void setup() {
-  frameRate(5);
   size(1500, 1000);
   radius = 20;
   heap = new Heap(true);
@@ -302,12 +306,12 @@ void draw() {
   textSize(30);
   text("switch heap type", 720, 940);
   
-  
-  if (pairsToSwap.size() > 0) {
-    pair = pairsToSwap.removeFirst();
-    heap.swapNodes(pair[0], pair[1]);
+  if ((frameCount - frame) % 50 == 0) {
+    if (pairsToSwap.size() > 0) {
+      pair = pairsToSwap.removeFirst();
+      heap.swapNodes(pair[0], pair[1]);
+    }
   }
- 
 }
 
 
