@@ -203,9 +203,9 @@ class Heap {
   }
   //- convert the array into a valid heap. [ should be O(n) ]
   void heapifyHelp(int index) {
-    if (2 * index + 1 < size) { //if it is has children
-      heapifyHelp(2 * index + 1);
-      heapifyHelp(2 * index + 2);
+    if (index < size) { //if it is in heap
+      heapifyHelp((2 * index) + 1);
+      heapifyHelp((2 * index) + 2);
       pushDown(index);
     }
   }
@@ -313,20 +313,21 @@ void draw() {
   textSize(30);
   text("switch heap type", 720, 940);
   
-  
-    if (pairsToSwap.size() > 0) {
-        if ((frameCount - frame) % 50 == 10) {   
-          pair = pairsToSwap.removeFirst();
-          heap.nodes[pair[0]].select();
-          heap.nodes[pair[1]].select();
-        }
-        else if ((frameCount - frame) % 50 == 25) {
-          heap.swapNodes(pair[0], pair[1]);
-        }
-        else if ((frameCount - frame) % 50 == 35) { 
-          heap.nodes[pair[0]].deselect();
-          heap.nodes[pair[1]].deselect();
-        }
+  if (pairsToSwap.size() > 0) {
+      
+      if ((frameCount - frame) % 70 == 10) {   
+        pair = pairsToSwap.peekFirst();
+        heap.nodes[pair[0]].select();
+        heap.nodes[pair[1]].select();
+      }
+      if ((frameCount - frame) % 70 == 35) {
+        heap.swapNodes(pair[0], pair[1]);
+      }
+      if ((frameCount - frame) % 70 == 55) { 
+        heap.nodes[pair[0]].deselect();
+        heap.nodes[pair[1]].deselect();
+        pairsToSwap.removeFirst();
+      }
   }
 }
 
