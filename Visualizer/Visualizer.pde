@@ -200,6 +200,7 @@ class Heap {
   }
   void heapify() {
     heapifyHelp(0);
+    frame = frameCount;
   }
   //- convert the array into a valid heap. [ should be O(n) ]
   void heapifyHelp(int index) {
@@ -348,7 +349,7 @@ void mousePressed() {
 
 boolean mouseinnode(int x, int y) {
   for (int i = 0; i < heap.size(); i++) {
-    if (Math.abs(mouseX - heap.nodes[i].getxcor()) < radius * 2 && Math.abs(mouseY - heap.nodes[i].getycor()) < radius * 2) {
+    if (Math.abs(x - heap.nodes[i].getxcor()) < radius * 2 && Math.abs(y - heap.nodes[i].getycor()) < radius * 2) {
       selectednode = i;
       return true;
     }
