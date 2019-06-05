@@ -2,7 +2,7 @@
 
 ## Description
 
-  This a visualization that would allow the user to see the structure and mechanics of a heap. It would allow the users to change the type of object being added (between floats or Strings sorted by alphabetical order), clear the heap, and switch between a max and min heap. The user can add any number of objects at a time and they will be added to the heap one at a time. The nodes will be represented by circles with radius of about 50 pixels, allowing for a maximum of 63 values to be inserted (6 levels) and all values inserted after the 63rd will automatically pop the top element first. With the visualizer, the user will be able to build heap and understand how it works.
+  This is a visualization that allows the user to see the structure and mechanics of a heap. It consists of a maximum of 31 nodes (circles of radius 50 pixels) that display data of type int. The heap allows users to add ints into the heap and remove them from the heap, and allows them to switch between a min and max heap. While these operations are happening, the speed is slowed to show the pushUp, pushDown, and heapify algorithms as they occur. As nodes are swapped within the heap, they are highlighted to show the algorithm at work. This allows the user to see and learn how the heap algorithms work.
 
 ## How To Run
 
