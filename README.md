@@ -4,6 +4,8 @@
 
 ## How To Run
 
+  Download the pde file named Visualizer.pde and compile and run that file. Press the enter key to add values to the heap, and press the delete key to clear the heap. Clicking on the box labeled "pop" removes the top value of the heap and clicking the box labeled "switch heap type" switches the heap from a min heap to a max heap and vice versa. Clicking on a node in the heap removes that value from the heap. While objects are moving within the heap, do not add new values, remove values, or attempt to change the type of heap.
+
 ## Developement Log
   
   May 20: 
@@ -15,14 +17,16 @@
           Added most heap methods including add, pop, clear, and heapify
       
   May 21:
-         Kiran:
+         
+   Kiran:
          
           
           Finished making heap by adding isMaxHeap boolean
           Error arose from use of generics in the Node class -> changed to only int
   
   May 22:
-         Minuk: 
+         
+   Minuk: 
           
           Started draw method to display the nodes
           Created getxcor and getycor to calculate where the xcor and ycor of the node should be
@@ -33,7 +37,8 @@
           Created display method for Nodes that creates a white circle with int inside
          
   May 23:
-        Kiran: 
+        
+   Kiran: 
           
           Modified draw method to use Node display method
          
@@ -44,7 +49,8 @@
           Started drawline method to draw lines between nodes
   
   May 24:
-        Kiran: 
+        
+   Kiran: 
           
           Fixed pop method, created mechanism for user to remove values
           
@@ -53,7 +59,8 @@
           Found code for inputing number of processing forum(user Chrisir) and experimented with and modified it
         
   May 27: 
-        Minuk:
+        
+   Minuk:
           
           Finished drawline method
           
