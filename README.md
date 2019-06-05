@@ -8,10 +8,11 @@
 
   1. Download the pde file named Visualizer.pde and compile and run that file.
   2. Press the enter key to add values to the heap, and press the delete key to clear the heap.
-  3. a) Clicking on the box labeled "pop" removes the top value of the heap
-     b) Clicking the box labeled "switch heap type" switches the heap from a min heap to a max heap and vice versa.
-     b) Clicking on a node in the heap removes that value from the heap.
-     -While objects are moving within the heap, do not add new values, remove values, or attempt to change the type of heap.
+  3.
+    - Clicking on the box labeled "pop" removes the top value of the heap
+    - Clicking the box labeled "switch heap type" switches the heap from a min heap to a max heap and vice versa.
+    - Clicking on a node in the heap removes that value from the heap.
+    - While objects are moving within the heap, do not add new values, remove values, or attempt to change the type of heap.
 
 ## Developement Log
 
