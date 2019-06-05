@@ -37,7 +37,14 @@ class Node {
   void setycor(int y) {
     ycor = y;
   }
-
+  
+  void select() {
+    selected = true;
+  }
+  
+  void deselect() {
+    selected = false;
+  }
   void display() {
     if (selected == false) {
       fill(235);
@@ -306,11 +313,20 @@ void draw() {
   textSize(30);
   text("switch heap type", 720, 940);
   
-  if ((frameCount - frame) % 50 == 0) {
+  
     if (pairsToSwap.size() > 0) {
-      pair = pairsToSwap.removeFirst();
-      heap.swapNodes(pair[0], pair[1]);
-    }
+        if ((frameCount - frame) % 50 == 10) {   
+          pair = pairsToSwap.removeFirst();
+          heap.nodes[pair[0]].select();
+          heap.nodes[pair[1]].select();
+        }
+        else if ((frameCount - frame) % 50 == 25) {
+          heap.swapNodes(pair[0], pair[1]);
+        }
+        else if ((frameCount - frame) % 50 == 35) { 
+          heap.nodes[pair[0]].deselect();
+          heap.nodes[pair[1]].deselect();
+        }
   }
 }
 
@@ -324,11 +340,8 @@ void mousePressed() {
     heap.switchHeapType();
   }  
   if (mouseinnode(mouseX, mouseY)) {
-    if (heap.nodes[selectednode].selected == true) {
-      heap.nodes[selectednode].selected = false;
-    } else {
-      heap.nodes[selectednode].selected = true;
-    }
+    lastRemoved = heap.remove(selectednode);
+   
   }
 }
 
