@@ -97,11 +97,11 @@
 
   May 31:
 
-    Kiran:
+  Kiran:
 
       Decoupled animation from data
 
-    Minuk:
+  Minuk:
 
       Implemented the highlighting method in mousepressed
       Error arose from selecting the node --> text inside node isn't displayed when selected
