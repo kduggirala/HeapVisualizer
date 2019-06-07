@@ -280,7 +280,7 @@ LinkedList<int[]> pairsToSwap;
 int[] pair;
 int frame;
 void setup() {
-  size(1500, 1000);
+  size(1500, 850);
   radius = 20;
   heap = new Heap(true);
 
@@ -297,22 +297,22 @@ void draw() {
   heap.display();
   
   fill (255);
-  rect(80, 900, 120, 60);
+  rect(80, 790, 120, 50);
   fill(0);
   textSize(30);
-  text("pop", 100, 940);
+  text("pop", 100, 825);
   
   fill (255);
-  rect(280, 900, 270, 60);
+  rect(280, 790, 270, 50);
   fill(0);
   textSize(30);
-  text("removed: " + lastRemoved, 300, 940);
+  text("removed: " + lastRemoved, 300, 825);
   
   fill (255);
-  rect(700, 900, 270, 60);
+  rect(700, 790, 270, 50);
   fill(0);
   textSize(30);
-  text("switch heap type", 720, 940);
+  text("switch heap type", 720, 825);
   
   if (pairsToSwap.size() > 0) {
       
@@ -335,15 +335,14 @@ void draw() {
 
 
 void mousePressed() {
-  if (Math.abs(mouseX - 140) <= 60 && Math.abs(mouseY - 930) <= 30) {
+  if (Math.abs(mouseX - 140) <= 50 && Math.abs(mouseY - 830) <= 30) {
     lastRemoved = heap.pop();
   }
-  if (Math.abs(mouseX - 835) <= 135 && Math.abs(mouseY - 930) <= 30) {
+  if (Math.abs(mouseX - 850) <= 135 && Math.abs(mouseY - 830) <= 30) {
     heap.switchHeapType();
   }  
   if (mouseinnode(mouseX, mouseY)) {
     lastRemoved = heap.remove(selectednode);
-   
   }
 }
 
